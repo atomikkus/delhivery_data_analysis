@@ -1,0 +1,28 @@
+{
+    "time_analysis": {
+        "actual_vs_osrm": {
+            "t_statistic": 114.8816952602603,
+            "p_value": 0.0
+        },
+        "actual_vs_segment": {
+            "t_statistic": 241.31921514357512,
+            "p_value": 0.0
+        },
+        "osrm_vs_segment": {
+            "t_statistic": 241.13291146910316,
+            "p_value": 0.0
+        }
+    },
+    "distance_analysis": {
+        "osrm_vs_segment_distance": {
+            "t_statistic": 236.5347409015127,
+            "p_value": 0.0
+        }
+    },
+    "scan_analysis": {
+        "point_a_vs_scan": {
+            "t_statistic": 255.01232171632304,
+            "p_value": 0.0
+        }
+    }
+}
