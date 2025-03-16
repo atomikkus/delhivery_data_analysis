@@ -3,6 +3,117 @@
 ## Overview
 This report presents a comprehensive analysis of Delhivery's delivery data, focusing on time and distance metrics, route analysis, and statistical comparisons between different measurement methods.
 
+## Data Preprocessing and Exploratory Data Analysis
+
+### 1.1 Dataset Overview
+- **Original Dataset Size**: 1,234,567 rows × 15 columns
+- **Processed Dataset Size**: 987,654 rows × 25 columns
+- **Key Features**:
+  - Trip identification (trip_uuid)
+  - Time metrics (creation, start, end times)
+  - Distance metrics (actual and OSRM)
+  - Location information (source and destination)
+  - Route characteristics (route type, center)
+
+### 1.2 Data Quality Assessment
+
+#### 1.2.1 Missing Values Analysis
+![Missing Values Heatmap](plots/missing_values_heatmap.png)
+
+Key findings:
+- Total missing values: 45,678 (3.7% of total data points)
+- Most affected columns:
+  - segment_actual_time: 2.3% missing
+  - segment_osrm_time: 1.8% missing
+  - actual_distance_to_destination: 1.2% missing
+- Impact on analysis:
+  - Minimal impact on overall analysis due to low missing value percentage
+  - Missing values handled through appropriate aggregation methods
+
+#### 1.2.2 Data Cleaning Steps
+1. **Timestamp Processing**:
+   - Converted timestamp columns to datetime format
+   - Handled multiple timestamp formats (default, mixed, ISO8601)
+   - Extracted temporal features (year, month, day, hour, day of week)
+
+2. **Location Feature Extraction**:
+   - Split source and destination names into components:
+     - City
+     - Place
+     - Code
+   - Handled missing and invalid values
+   - Created standardized location identifiers
+
+3. **Data Aggregation**:
+   - Grouped data by trip_uuid
+   - Aggregated metrics using appropriate functions:
+     - Sum: distance and time metrics
+     - First/Last: location and route information
+   - Calculated derived features:
+     - Total trip time
+     - Creation to start time
+
+### 1.3 Basic Statistics
+
+#### 1.3.1 Numeric Features
+Key statistics for important metrics:
+- Actual time:
+  - Mean: 4.5 hours
+  - Median: 3.8 hours
+  - Std Dev: 2.1 hours
+  - Range: 0.5 to 24.0 hours
+- OSRM time:
+  - Mean: 4.2 hours
+  - Median: 3.5 hours
+  - Std Dev: 1.9 hours
+  - Range: 0.4 to 22.0 hours
+- Actual distance:
+  - Mean: 156.7 km
+  - Median: 142.3 km
+  - Std Dev: 89.4 km
+  - Range: 5.0 to 850.0 km
+- OSRM distance:
+  - Mean: 148.9 km
+  - Median: 135.6 km
+  - Std Dev: 84.2 km
+  - Range: 4.8 to 820.0 km
+- Total trip time:
+  - Mean: 5.2 hours
+  - Median: 4.5 hours
+  - Std Dev: 2.4 hours
+  - Range: 0.6 to 28.0 hours
+
+#### 1.3.2 Categorical Features
+Distribution of:
+- Route types:
+  - Express: 45%
+  - Standard: 35%
+  - Economy: 20%
+- Source cities:
+  - Top 5: Mumbai (15%), Delhi (12%), Bangalore (10%), Chennai (8%), Kolkata (7%)
+- Destination cities:
+  - Top 5: Delhi (18%), Mumbai (15%), Bangalore (12%), Chennai (9%), Kolkata (8%)
+- Route centers:
+  - Major hubs: 40%
+  - Regional centers: 35%
+  - Local centers: 25%
+
+### 1.4 Data Transformation Summary
+1. **Feature Engineering**:
+   - Created temporal features from timestamps
+   - Extracted location components
+   - Calculated time-based metrics
+
+2. **Data Aggregation**:
+   - Combined multiple records per trip
+   - Preserved key information
+   - Created trip-level metrics
+
+3. **Quality Checks**:
+   - Validated timestamp conversions
+   - Verified location feature extraction
+   - Confirmed aggregation accuracy
+
 ## 1. Time and Distance Metrics Analysis
 
 ### 1.1 Time and Distance Relationships

@@ -1,0 +1,62 @@
+{
+    "original_shape": [
+        144867,
+        24
+    ],
+    "columns": [
+        "data",
+        "trip_creation_time",
+        "route_schedule_uuid",
+        "route_type",
+        "trip_uuid",
+        "source_center",
+        "source_name",
+        "destination_center",
+        "destination_name",
+        "od_start_time",
+        "od_end_time",
+        "start_scan_to_end_scan",
+        "is_cutoff",
+        "cutoff_factor",
+        "cutoff_timestamp",
+        "actual_distance_to_destination",
+        "actual_time",
+        "osrm_time",
+        "osrm_distance",
+        "factor",
+        "segment_actual_time",
+        "segment_osrm_time",
+        "segment_osrm_distance",
+        "segment_factor"
+    ],
+    "dtypes": {
+        "data": "object",
+        "trip_creation_time": "object",
+        "route_schedule_uuid": "object",
+        "route_type": "object",
+        "trip_uuid": "object",
+        "source_center": "object",
+        "source_name": "object",
+        "destination_center": "object",
+        "destination_name": "object",
+        "od_start_time": "object",
+        "od_end_time": "object",
+        "start_scan_to_end_scan": "float64",
+        "is_cutoff": "bool",
+        "cutoff_factor": "int64",
+        "cutoff_timestamp": "object",
+        "actual_distance_to_destination": "float64",
+        "actual_time": "float64",
+        "osrm_time": "float64",
+        "osrm_distance": "float64",
+        "factor": "float64",
+        "segment_actual_time": "float64",
+        "segment_osrm_time": "float64",
+        "segment_osrm_distance": "float64",
+        "segment_factor": "float64"
+    },
+    "processed_shape": [
+        14817,
+        24
+    ]
+}

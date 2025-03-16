@@ -7,7 +7,13 @@ from datetime import datetime
 from scipy import stats
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import warnings
+import os
+import json
 warnings.filterwarnings('ignore')
+
+# Create directories for outputs
+os.makedirs('plots', exist_ok=True)
+os.makedirs('results', exist_ok=True)
 
 # Set style for better visualizations
 plt.style.use('default')  # Using default style instead of seaborn
@@ -16,7 +22,14 @@ sns.set_theme()  # This will apply seaborn's styling
 # Load the data
 df = pd.read_csv('delhivery_data.csv')
 
-# Display basic information about the dataset
+# Store basic information
+basic_info = {
+    'original_shape': df.shape,
+    'columns': df.columns.tolist(),
+    'dtypes': df.dtypes.astype(str).to_dict()
+}
+
+# Display and save basic information
 print("Dataset Shape:", df.shape)
 print("\nDataset Info:")
 print(df.info())
@@ -40,11 +53,15 @@ missing_analysis = analyze_missing_values(df)
 print("\nMissing Value Analysis:")
 print(missing_analysis)
 
+# Save missing value analysis
+missing_analysis.to_csv('results/missing_values_analysis.csv')
+
 # Visualize missing values
 plt.figure(figsize=(12, 6))
 sns.heatmap(df.isnull(), yticklabels=False, cbar=False, cmap='viridis')
 plt.title('Missing Values Heatmap')
-plt.savefig('missing_values_heatmap.png')
+plt.tight_layout()
+plt.savefig('plots/missing_values_heatmap.png')
 plt.close()
 
 # Convert timestamp columns to datetime with proper format
@@ -98,10 +115,9 @@ df['destination_city'] = destination_features['city']
 df['destination_place'] = destination_features['place']
 df['destination_code'] = destination_features['code']
 
-# Display sample of new features
-print("\nSample of extracted features:")
-print(df[['source_name', 'source_city', 'source_place', 'source_code',
-          'destination_name', 'destination_city', 'destination_place', 'destination_code']].head())
+# Save sample of extracted features
+df[['source_name', 'source_city', 'source_place', 'source_code',
+    'destination_name', 'destination_city', 'destination_place', 'destination_code']].head().to_csv('results/extracted_features_sample.csv')
 
 # Define aggregation functions for different columns
 agg_dict = {
@@ -135,12 +151,17 @@ df_aggregated = df.groupby('trip_uuid').agg(agg_dict).reset_index()
 df_aggregated['total_trip_time'] = (df_aggregated['od_end_time'] - df_aggregated['od_start_time']).dt.total_seconds() / 3600
 df_aggregated['creation_to_start_time'] = (df_aggregated['od_start_time'] - df_aggregated['trip_creation_time']).dt.total_seconds() / 3600
 
-# Display sample of aggregated data
-print("\nSample of aggregated data:")
-print(df_aggregated.head())
+# Save sample of aggregated data
+df_aggregated.head().to_csv('results/aggregated_data_sample.csv')
 
-print("\nShape of original data:", df.shape)
-print("Shape of aggregated data:", df_aggregated.shape)
+# Update basic info with processed data shape
+basic_info['processed_shape'] = df_aggregated.shape
+
+# Save basic information
+with open('results/basic_info.json', 'w') as f:
+    json.dump(basic_info, f, indent=4)
 
 # Save processed data
-df_aggregated.to_csv('processed_delhivery_data.csv', index=False) 
+df_aggregated.to_csv('processed_delhivery_data.csv', index=False)
+
+print("\nPreprocessing complete! Results have been saved to the 'results' directory.") 
